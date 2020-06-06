@@ -1,3 +1,4 @@
+import paho.mqtt.client as mqtt
 import time
 from datetime import datetime
 from datetime import timedelta
@@ -8,7 +9,7 @@ import re
 
 count = 0
 
-host = "172.30.1.30"
+host = "192.168.0.13"
 #host = "192.168.43.226"
 
 def on_connect(client, userdata, flags, rc):
@@ -41,7 +42,7 @@ def pubTempData(client, freq=10, limit=100):
 if __name__ == "__main__":
     print ("get client")
     client = mqtt.Client("CPU_TEMP_PUB01")
-    client.username_pw_set('cesan', password='cesan@hufs')
+    client.username_pw_set('pjs', password='4654')
     client.on_connect = on_connect
     client.on_subscribe = on_subscribe
     client.on_message = on_message
