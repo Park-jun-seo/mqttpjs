@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
+import psutil as ps
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
@@ -36,7 +37,11 @@ def pubTempData(client, freq=10, limit=100):
         row = "{:s},{:s}".format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da)
         client.publish("cpu/temp",payload=row, qos=1)
         if i%freq == 0:
-            print (i, row)
+            usemem = ps.virtual_memory()[3]/(1024**2)
+            totalmem = ps.virtual_memory()[0]/(1024**2)
+            print("%d,%s,%.1f,%.1f"%(i,row,totalmem,usemem))
+            #print(ps.cpu_percent())
+            
         time.sleep(delta)
 
 if __name__ == "__main__":
