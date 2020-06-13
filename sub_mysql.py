@@ -81,7 +81,7 @@ def on_message(client, userdata, msg):
         #print(payload_string)
         avg_data = sum_data / sample_count
         str_data = '{:.1f}'.format(avg_data)
-        print(sample_count, rec_time, str_data)
+        #print(sample_count, rec_time, str_data)
         pushData2DB(rec_time, str_data)
         sample_count = 0
         sum_data = 0
