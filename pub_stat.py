@@ -9,7 +9,7 @@ import os
 import re
 
 count = 0
-
+tempdata=["",""]
 host = "192.168.0.13"
 #host = "192.168.43.226"
 
@@ -36,13 +36,13 @@ def pubTempData(client, freq=10, limit=100):
         usemem = ps.virtual_memory()[3]/(1024**2)
         totalmem = ps.virtual_memory()[0]/(1024**2)
         cpups = ps.cpu_percent()
-        row = "{:s},{:s},{:.1f},{:.1f},{:.1f}".format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
+        row = 'temp_time({:s}),temp_data("{:s},{:.1f},{:.1f},{:.1f}")'.format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
         client.publish("cpu/temp",payload=row, qos=1)
         if i%freq == 0:
             
             print("%d,%s"%(i,row))
             #print(ps.cpu_percent())
-            
+            #temp_time(2020-05-29 15:58:08.742108), temp_data("52.1,27.4,874.5,258.7")
         time.sleep(delta)
 
 if __name__ == "__main__":
