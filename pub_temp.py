@@ -36,11 +36,16 @@ def pubTempData(client, freq=10, limit=100):
         usemem = ps.virtual_memory()[3]/(1024**2)
         totalmem = ps.virtual_memory()[0]/(1024**2)
         cpups = ps.cpu_percent()
-        row = "{:s},{:s},{:.1f},{:.1f},{:.1f}".format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
+        
+        date= "{:s}".format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"))
+        #clo[0] = str(da) +","+str(cpups)+","+ str(totalmem) +","+ str(usemem)
+        data = ("{:s},{:.1f},{:.1f},{:.1f}".format(da,cpups,totalmem,usemem))
+       #row = "{:s},{:s},{:.1f},{:.1f},{:.1f}".format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
+        row =  data
         client.publish("cpu/temp",payload=row, qos=1)
         if i%freq == 0:
             
-            print("%d,%s"%(i,row))
+            print('%d,%s %s'%(i,date,data))
             #print(ps.cpu_percent())
             
         time.sleep(delta)

@@ -3,11 +3,10 @@ import time
 from datetime import datetime
 from datetime import timedelta
 import numpy as np
-import pandas as pd
 import logging
 import os
 import socket
-
+import pandas as pd
 import dbconfig
 from dbhelper import DBHelper
 
@@ -66,7 +65,9 @@ def on_message(client, userdata, msg):
     #print("{:d} Topic: {}. Payload: {}".format(count, msg.topic, payload_string))
     
     row_data = payload_string.split(",")
-    #print(row_data)
+    #print(row_data[0])
+    print('%d temp_time(%s), temp_data("%s,%s,%s,%s")'%(count,row_data[0],row_data[1],row_data[2],row_data[3],row_data[4]))
+    #temp_time(2020-05-29 15:58:08.742108), temp_data("52.1,27.4,874.5,258.7")
 
     rec_time = datetime.strptime(row_data[0], "%Y-%m-%d %H:%M:%S.%f")
     sub_data = float(row_data[1])

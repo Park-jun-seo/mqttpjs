@@ -3,13 +3,12 @@ import time
 import psutil as ps
 from datetime import datetime
 from datetime import timedelta
-import numpy as np
 import pandas as pd
 import os
 import re
-
+import numpy as np
 count = 0
-tempdata=["",""]
+
 host = "192.168.0.13"
 #host = "192.168.43.226"
 
@@ -36,11 +35,15 @@ def pubTempData(client, freq=10, limit=100):
         usemem = ps.virtual_memory()[3]/(1024**2)
         totalmem = ps.virtual_memory()[0]/(1024**2)
         cpups = ps.cpu_percent()
-        row = 'temp_time({:s}),temp_data("{:s},{:.1f},{:.1f},{:.1f}")'.format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
-        client.publish("cpu/temp",payload=row, qos=1)
+        cum1 = '{:s}'.format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"))
+        cum2 = ",{:s},{:.1f},{:.1f},{:.1f}".format(da,cpups,totalmem,usemem)
+    
+        #row = 'temp_time({:s}),temp_data("{:s},{:.1f},{:.1f},{:.1f}")'.format(ti.strftime("%Y-%m-%d %H:%M:%S.%f"),da,cpups,totalmem,usemem)
+        cum3 = cum1 + ' '+cum2
+        client.publish("cpu/temp",payload=cum3, qos=1)
         if i%freq == 0:
-            
-            print("%d,%s"%(i,row))
+            print("%d,%s"%(i,cum3))
+            #print("%d,%s %s"%(i,cum1,cum2))
             #print(ps.cpu_percent())
             #temp_time(2020-05-29 15:58:08.742108), temp_data("52.1,27.4,874.5,258.7")
         time.sleep(delta)
